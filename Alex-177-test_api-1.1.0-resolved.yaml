@@ -1,0 +1,136 @@
+---
+openapi: 3.0.0
+info:
+  title: API кинотеатра
+  description: 'API кинотеатра для управления бронированием '
+  version: 1.1.0
+servers:
+- url: https://virtserver.swaggerhub.com/Alex-177/test_api/1.0.1
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/answersinside/CIFK/1.0.0
+  description: Prod
+paths:
+  /sessions:
+    get:
+      summary: Проверить наличие мест на сеанс
+      parameters:
+      - name: isFreePlaces
+        in: query
+        description: Свободные места в наличии
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+    put:
+      summary: Изменить время сеанса
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sessions_body'
+      responses:
+        "200":
+          description: OK
+  /reservation{idReservation}:
+    put:
+      summary: Забронировать место
+      parameters:
+      - name: idReservation
+        in: path
+        description: The reservation id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reservationidReservation_body'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+    delete:
+      summary: Отменить бронь
+      parameters:
+      - name: idReservation
+        in: path
+        description: The reservation id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    inline_response_200:
+      type: object
+      properties:
+        id:
+          type: integer
+        IdСinemaHall:
+          type: integer
+        filmGenre:
+          type: string
+        name:
+          type: string
+        isFreePlaces:
+          type: boolean
+        numberOfSeats:
+          type: integer
+    sessions_body:
+      type: object
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+        id:
+          type: integer
+        IdСinemaHall:
+          type: integer
+        filmGenre:
+          type: string
+        name:
+          type: string
+        isFreePlaces:
+          type: boolean
+        numberOfSeats:
+          type: integer
+    reservationidReservation_body:
+      type: object
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+        filmName:
+          type: string
+        customerName:
+          type: string
+        numberOfTickets:
+          type: string
+        filmDate:
+          type: string
+          format: date-time
+        sum:
+          type: number
+    inline_response_200_1:
+      type: object
+      properties:
+        idReservation:
+          type: string
