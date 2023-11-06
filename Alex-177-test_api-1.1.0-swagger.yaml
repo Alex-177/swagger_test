@@ -1,0 +1,121 @@
+openapi: 3.0.0
+info:
+  version: 1.1.0
+  title: API кинотеатра
+  description: 'API кинотеатра для управления бронированием '
+paths:
+  /sessions:
+    put:
+      summary: Изменить время сеанса
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dateTime:
+                  type: string
+                  format: date-time
+                id:
+                  type: integer
+                IdСinemaHall:
+                  type: integer
+                filmGenre:
+                  type: string
+                name:
+                   type: string
+                isFreePlaces:
+                   type: boolean
+                numberOfSeats:
+                   type: integer
+      responses:
+       '200':
+         description: OK
+    get:   
+      summary: Проверить наличие мест на сеанс
+      parameters:
+      - name: isFreePlaces
+        in: query
+        description: Свободные места в наличии
+        required: true
+        schema:
+          type: boolean
+      responses:
+       '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  IdСinemaHall:
+                    type: integer
+                  filmGenre:
+                    type: string
+                  name:
+                    type: string
+                  isFreePlaces:
+                    type: boolean
+                  numberOfSeats:
+                    type: integer
+                  
+  /reservation{idReservation}:
+    parameters:
+      - in: path
+        name: idReservation  
+        required: true
+        schema:
+          type: string
+        description: The reservation id
+    put:
+      summary: Забронировать место
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dateTime:
+                  type: string
+                  format: date-time
+                filmName:
+                  type: string
+                customerName:
+                  type: string
+                numberOfTickets:
+                  type: string
+                filmDate:
+                  type: string
+                  format: date-time
+                sum:
+                  type: number
+      responses:
+        '200':
+          description: OK
+          content:
+           application/json:
+            schema:
+               type: object
+               properties:
+                idReservation:
+                  type: string
+    delete:
+      summary: Отменить бронь
+
+      responses:
+        '200':
+          description: OK        
+              
+    
+            
+  
+     
+servers:
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Alex-177/test_api/1.0.1
+  - description: Prod
+    url: https://virtserver.swaggerhub.com/answersinside/CIFK/1.0.0
